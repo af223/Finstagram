@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private Button btnSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,14 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
+        btnSignup = findViewById(R.id.btnSignup);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void loginUser(String username, String password) {
@@ -51,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    // TODO: Better error handling
                     Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Issue with login: ", e);
                     return;
