@@ -1,6 +1,7 @@
 package com.codepath.finstagram.fragments;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.codepath.finstagram.models.Post;
 import com.parse.FindCallback;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class ProfileFragment extends PostsFragment {
 
+    // get current user's 20 most recent posts
     @Override
     protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -24,36 +26,12 @@ public class ProfileFragment extends PostsFragment {
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
+                    Toast.makeText(getContext(), "Error: Unable to load posts", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                for(Post post : posts) {
-                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
+                allPosts.clear();
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    @Override
-    protected void refreshPosts() {
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.setLimit(20);
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
-                    return;
-                }
-                for(Post post : posts) {
-                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-                adapter.clear();
-                adapter.addAll(posts);
                 swipeContainer.setRefreshing(false);
             }
         });
