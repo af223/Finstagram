@@ -1,8 +1,10 @@
 package com.codepath.finstagram;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,12 +23,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.codepath.finstagram.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etDescription;
     private Button btnTakePic;
     private Button btnPost;
+    private BottomNavigationView bottomNavigationView;
     private ImageView ivPicture;
     private File photoFile;
     public String photoFileName = "photo.jpg";
@@ -67,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         btnPost = findViewById(R.id.btnPost);
         ivPicture = findViewById(R.id.ivPicture);
         btnToFeed = findViewById(R.id.btnToFeed);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         //queryPosts();
         btnPost.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +107,25 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "to Feed");
                 Intent i = new Intent(MainActivity.this, FeedActivity.class);
                 startActivity(i);
+            }
+        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_compose:
+                        Toast.makeText(MainActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_profile:
+                    default:
+                        Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
             }
         });
     }
@@ -133,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 // RESIZE BITMAP, see section below
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(takenImage, 200, 200, true);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
                 try {
                     FileOutputStream fos = new FileOutputStream(photoFile);
                     fos.write(bytes.toByteArray());
