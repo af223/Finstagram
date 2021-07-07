@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.codepath.finstagram.fragments.ComposeFragment;
 import com.codepath.finstagram.fragments.PostsFragment;
+import com.codepath.finstagram.fragments.ProfileFragment;
 import com.codepath.finstagram.models.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                     default:
-                        fragment = new ComposeFragment();
+                        fragment = new ProfileFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
