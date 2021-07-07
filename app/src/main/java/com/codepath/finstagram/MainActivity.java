@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +27,11 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivPicture;
     private File photoFile;
     public String photoFileName = "photo.jpg";
+    private ImageButton btnToFeed;
 
 
     @Override
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         btnTakePic = findViewById(R.id.btnTakePic);
         btnPost = findViewById(R.id.btnPost);
         ivPicture = findViewById(R.id.ivPicture);
+        btnToFeed = findViewById(R.id.btnToFeed);
 
         //queryPosts();
         btnPost.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i(TAG, "camera clicked");
                 launchCamera();
+            }
+        });
+        btnToFeed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "to Feed");
+                Intent i = new Intent(MainActivity.this, FeedActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -117,6 +132,18 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(takenImage, 200, 200, true);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                try {
+                    FileOutputStream fos = new FileOutputStream(photoFile);
+                    fos.write(bytes.toByteArray());
+                    fos.close();
+                    Log.i(TAG, "flattened");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 // Load the taken image into a preview
                 ivPicture.setImageBitmap(resizedBitmap);
             } else { // Result was a failure
