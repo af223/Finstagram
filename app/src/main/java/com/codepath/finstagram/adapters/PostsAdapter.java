@@ -19,14 +19,13 @@ import com.codepath.finstagram.models.Post;
 import com.parse.ParseFile;
 
 import org.jetbrains.annotations.NotNull;
-import org.parceler.Parcels;
 
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Post> posts;
+    private final Context context;
+    private final List<Post> posts;
 
     public PostsAdapter(Context context, List<Post> posts) {
         this.context = context;
@@ -52,11 +51,21 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         return posts.size();
     }
 
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Post> list) {
+        posts.addAll(list);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView tvAuthor;
-        private ImageView ivPost;
-        private TextView tvDescription;
+        private final TextView tvAuthor;
+        private final ImageView ivPost;
+        private final TextView tvDescription;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -81,21 +90,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (position != RecyclerView.NO_POSITION) {
                 Post post = posts.get(position);
                 Intent i = new Intent(context, DetailsActivity.class);
-                //i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                Log.i("PostAdapter", "clicked");
                 i.putExtra(Post.class.getSimpleName(), post.getObjectId());
                 context.startActivity(i);
             }
         }
-    }
-
-    public void clear() {
-        posts.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<Post> list) {
-        posts.addAll(list);
-        notifyDataSetChanged();
     }
 }
