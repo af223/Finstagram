@@ -22,9 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.codepath.finstagram.FeedActivity;
 import com.codepath.finstagram.LoginActivity;
-import com.codepath.finstagram.MainActivity;
 import com.codepath.finstagram.R;
 import com.codepath.finstagram.models.Post;
 import com.parse.FindCallback;
@@ -75,21 +73,11 @@ public class ComposeFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        btnLogout = view.findViewById(R.id.btnLogout);
         etDescription = view.findViewById(R.id.etDescription);
         btnTakePic = view.findViewById(R.id.btnTakePic);
         btnPost = view.findViewById(R.id.btnPost);
         ivPicture = view.findViewById(R.id.ivPicture);
-        btnToFeed = view.findViewById(R.id.btnToFeed);
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +99,6 @@ public class ComposeFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(TAG, "camera clicked");
                 launchCamera();
-            }
-        });
-        btnToFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "to Feed");
-                Intent i = new Intent(getContext(), FeedActivity.class);
-                startActivity(i);
             }
         });
     }
