@@ -11,64 +11,6 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp">
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:text="Logout" />
-
-    <EditText
-        android:id="@+id/etDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnLogout"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="3dp"
-        android:ems="10"
-        android:hint="Description..."
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/btnTakePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etDescription"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Take Picture" />
-
-    <ImageView
-        android:id="@+id/ivPicture"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/btnTakePic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <Button
-        android:id="@+id/btnPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPicture"
-        android:layout_marginTop="5dp"
-        android:text="Post"
-        android:layout_centerInParent="true" />
-
-    <ImageButton
-        android:id="@+id/btnToFeed"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_above="@+id/etDescription"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/instagram_home_outline_24" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
