@@ -58,28 +58,33 @@ public class ProfileActivity extends AppCompatActivity {
         btnSetPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    f = new File(ProfileActivity.this.getCacheDir(), "photo.jpg");
-                    f.createNewFile();
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos);
-                    byte[] bitmapdata = bos.toByteArray();
-                    FileOutputStream fos = new FileOutputStream(f);
-                    fos.write(bitmapdata);
-                    fos.flush();
-                    fos.close();
-                    ParseUser.getCurrentUser().put(Post.KEY_PFP, new ParseFile(f));
-                    ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.e("Profile", "Error while saving pfp: ", e);
-                                Toast.makeText(ProfileActivity.this, "Error while saving pfp", Toast.LENGTH_SHORT).show();
+                if (ivProfilePic.getDrawable() == null) {
+                    Toast.makeText(ProfileActivity.this, "No image found", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    try {
+                        f = new File(ProfileActivity.this.getCacheDir(), "photo.jpg");
+                        f.createNewFile();
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+                        FileOutputStream fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                        ParseUser.getCurrentUser().put(Post.KEY_PFP, new ParseFile(f));
+                        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Log.e("Profile", "Error while saving pfp: ", e);
+                                    Toast.makeText(ProfileActivity.this, "Error while saving pfp", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
