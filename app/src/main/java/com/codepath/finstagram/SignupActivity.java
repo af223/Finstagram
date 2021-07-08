@@ -56,6 +56,7 @@ public class SignupActivity extends AppCompatActivity {
                     Intent i = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(i);
                     finish();
+                    Toast.makeText(SignupActivity.this, "Signup success!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(SignupActivity.this, "Unable to create account", Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Unable to signup: ", e);

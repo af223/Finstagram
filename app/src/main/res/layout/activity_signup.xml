@@ -37,21 +37,31 @@
 
     <Button
         android:id="@+id/btnSignup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword"
-        android:layout_marginStart="20dp"
+        android:layout_centerInParent="true"
         android:layout_gravity="start"
         android:layout_marginTop="20dp"
-        android:text="@string/signup"
-        android:layout_centerInParent="true"/>
+        android:backgroundTint="#10BD17"
+        android:text="@string/signup" />
 
     <ImageView
         android:id="@+id/ivIcon"
+        android:layout_below="@+id/ivIGLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon"
+        android:layout_marginTop="5dp"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/ivIGLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:src="@drawable/icon"
-        android:layout_centerInParent="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/nav_logo_whiteout" />
 
 </RelativeLayout>

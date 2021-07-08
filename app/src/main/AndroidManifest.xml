@@ -33,7 +33,8 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".SignupActivity" />
+        <activity android:name=".SignupActivity"
+                  android:theme="@style/Theme.Finstagram.NoActionBar"/>
         <activity android:name=".LoginActivity"
                   android:theme="@style/Theme.Finstagram.NoActionBar">
             <intent-filter>
