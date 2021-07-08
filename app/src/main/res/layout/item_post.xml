@@ -10,6 +10,7 @@
         android:id="@+id/tvAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="Author"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -24,12 +25,18 @@
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
         android:text="Caption"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tvPostDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
         android:text="TextView" />
 </LinearLayout>
