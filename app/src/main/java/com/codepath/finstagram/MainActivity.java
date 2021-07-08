@@ -1,55 +1,26 @@
 package com.codepath.finstagram;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.codepath.finstagram.fragments.ComposeFragment;
 import com.codepath.finstagram.fragments.PostsFragment;
 import com.codepath.finstagram.fragments.ProfileFragment;
-import com.codepath.finstagram.models.Post;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "ActivityMain";
-    private BottomNavigationView bottomNavigationView;
+    private static BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        // Set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 
@@ -89,16 +59,13 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // handles when a button from the Action Bar is clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int logout = R.id.logout;
-        switch (item.getItemId()) {
-            case logout:
-                ParseUser.logOut();
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
-                break;
+        if (item.getItemId() == logout) {
+            ParseUser.logOut();
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

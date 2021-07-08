@@ -1,22 +1,13 @@
 package com.codepath.finstagram.models;
 
-import android.os.Parcelable;
 import android.text.format.DateUtils;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import org.parceler.Parcel;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
@@ -29,30 +20,7 @@ public class Post extends ParseObject {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
-    public String getDescription() {
-        return getString(KEY_DESCRIPTION);
-    }
-
-    public void setDescription(String description) {
-        put(KEY_DESCRIPTION, description);
-    }
-
-    public ParseFile getImage() {
-        return getParseFile(KEY_IMAGE);
-    }
-
-    public void setImage(ParseFile parseFile) {
-        put(KEY_IMAGE, parseFile);
-    }
-
-    public ParseUser getUser() {
-        return getParseUser(KEY_USER);
-    }
-
-    public void setUser(ParseUser user) {
-        put(KEY_USER, user);
-    }
-
+    // calculate time post was created relative to now
     public static String calculateTimeAgo(Date createdAt) {
         long time = createdAt.getTime();
         long now = System.currentTimeMillis();
@@ -78,6 +46,30 @@ public class Post extends ParseObject {
                     System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
             return relativeDate;
         }
+    }
+
+    public String getDescription() {
+        return getString(KEY_DESCRIPTION);
+    }
+
+    public void setDescription(String description) {
+        put(KEY_DESCRIPTION, description);
+    }
+
+    public ParseFile getImage() {
+        return getParseFile(KEY_IMAGE);
+    }
+
+    public void setImage(ParseFile parseFile) {
+        put(KEY_IMAGE, parseFile);
+    }
+
+    public ParseUser getUser() {
+        return getParseUser(KEY_USER);
+    }
+
+    public void setUser(ParseUser user) {
+        put(KEY_USER, user);
     }
 
 }

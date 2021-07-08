@@ -1,11 +1,12 @@
 package com.codepath.finstagram;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.codepath.finstagram.models.Post;
@@ -14,11 +15,9 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
-import org.parceler.Parcels;
-
 public class DetailsActivity extends AppCompatActivity {
 
-    Post post;
+    private static final String TAG = "DetailsActivity";
     private TextView tvAuthor;
     private ImageView ivPost;
     private TextView tvDescription;
@@ -34,12 +33,17 @@ public class DetailsActivity extends AppCompatActivity {
         tvDescription = findViewById(R.id.tvDescription);
         tvDate = findViewById(R.id.tvDate);
 
-        //post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
+        // fetch post from Parse based on objectID passed in from intent
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.getInBackground(getIntent().getStringExtra(Post.class.getSimpleName()), new GetCallback<Post>() {
             @Override
             public void done(Post post, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting post", e);
+                    Toast.makeText(DetailsActivity.this, "Error: Unable to load post details", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 tvDescription.setText(post.getDescription());
                 ParseFile image = post.getImage();
                 if (image != null) {
