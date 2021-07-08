@@ -28,7 +28,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
+ * This fragment allows the user to view the 20 most recent posts made by any app user, and pull down
+ * to refresh the feed. This fragment appears when the home (left) option is selected on the bottom navigation.
  */
+
 public class PostsFragment extends Fragment {
 
     public static final String TAG = "PostsFragment";

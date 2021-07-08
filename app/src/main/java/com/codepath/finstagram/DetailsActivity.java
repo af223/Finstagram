@@ -15,6 +15,14 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
+/**
+ * This activity allows the user to view the selected post in detail. Namely, the user can see the
+ * poster, image, caption, and timestamp.
+ *
+ * This activity appears when the user has clicked on a post in the feed/home tab, and is started
+ * from PostsFragment.java.
+ */
+
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "DetailsActivity";

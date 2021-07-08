@@ -14,6 +14,14 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+/**
+ * This activity allows the user to login with their username and password. If the user doesn't already
+ * have an account, the user can click "sign up" and this activity starts SignupActivity.java.
+ *
+ * The app loads this activity upon starting by default, however this activity will automatically start
+ * MainActivity.java if a user has previously signed in.
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";

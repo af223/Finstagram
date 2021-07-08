@@ -18,6 +18,14 @@ import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * This activity holds the bottom navigation that allows the user to choose which fragment they want
+ * to view/interact with.
+ *
+ * This activity is started by LoginActivity.java if the user logs in or was logged in from the previous session.
+ * This activity is started by SignupActivity.java if the user is new and has just created a new account.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private static BottomNavigationView bottomNavigationView;

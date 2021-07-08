@@ -33,7 +33,12 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
+ *
+ * This fragment allows the user to take a picture using the phone camera, add a caption, and post it.
+ * Before posting, the user is able to see a preview of the picture. This fragment appears when the
+ * compose (middle) option is selected on the bottom navigation.
  */
+
 public class ComposeFragment extends Fragment {
 
     public static final String TAG = "ComposeFragment";

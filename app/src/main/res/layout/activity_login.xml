@@ -37,23 +37,22 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword"
         android:layout_gravity="start"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="90dp"
         android:text="@string/login" />
 
     <Button
         android:id="@+id/btnSignup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/btnLogin"
-        android:layout_below="@+id/etPassword"
-        android:layout_marginStart="20dp"
+        android:layout_below="@+id/btnLogin"
         android:layout_gravity="start"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="00dp"
+        android:layout_marginTop="10dp"
         android:text="@string/signup" />
 
     <ImageView

@@ -14,6 +14,12 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+/**
+ * This activity allows a user to create an account by providing a (unique) username and password.
+ *
+ * This activity is started by LoginActivity.java if the user clicked the sign up button.
+ */
+
 public class SignupActivity extends AppCompatActivity {
 
     public static final String TAG = "SignupActivity";
