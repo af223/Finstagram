@@ -24,6 +24,7 @@ import com.parse.ParseQuery;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,8 @@ public class PostsFragment extends Fragment {
     protected List<Post> allPosts;
     protected SwipeRefreshLayout swipeContainer;
     private RecyclerView rvPosts;
+    private EndlessRecyclerViewScrollListener scrollListener;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +58,7 @@ public class PostsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 queryPosts();
+                scrollListener.resetState();
             }
         });
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -62,12 +66,51 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        rvPosts = view.findViewById(R.id.rvPosts);
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
+        rvPosts = view.findViewById(R.id.rvPosts);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setLayoutManager(linearLayoutManager);
+
+        // endless scrolling
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadMorePosts();
+            }
+        };
+        rvPosts.addOnScrollListener(scrollListener);
         rvPosts.setAdapter(adapter);
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();
+    }
+
+    // load older posts
+    protected void loadMorePosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(20);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.whereLessThan("createdAt", Post.lastPostTime);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    Toast.makeText(getContext(), "Error: Unable to load posts", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (posts.isEmpty()) {
+                    Toast.makeText(getContext(), "No more posts to load!", Toast.LENGTH_SHORT).show();
+                }
+                for (Post post : posts) {
+                    if (post.getCreatedAt().before(Post.lastPostTime)) {
+                        Post.lastPostTime = post.getCreatedAt();
+                    }
+                }
+                allPosts.addAll(posts);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     // get the 20 most recent posts
@@ -83,6 +126,12 @@ public class PostsFragment extends Fragment {
                     Log.e(TAG, "Issue with getting posts", e);
                     Toast.makeText(getContext(), "Error: Unable to load posts", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                Post.lastPostTime = new Date();
+                for (Post post : posts) {
+                    if (post.getCreatedAt().before(Post.lastPostTime)) {
+                        Post.lastPostTime = post.getCreatedAt();
+                    }
                 }
                 allPosts.clear();
                 allPosts.addAll(posts);

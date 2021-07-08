@@ -3,14 +3,13 @@ package com.codepath.finstagram.fragments;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-
 import com.codepath.finstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +20,37 @@ import java.util.List;
 public class ProfileFragment extends PostsFragment {
 
     private static final String TAG = "ProfileFragment";
+
+    // load current user's older posts
+    @Override
+    protected void loadMorePosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(20);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.whereLessThan("createdAt", Post.lastPostTime);
+        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    Toast.makeText(getContext(), "Error: Unable to load posts", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (posts.isEmpty()) {
+                    Toast.makeText(getContext(), "No more posts to load!", Toast.LENGTH_SHORT).show();
+                }
+                for (Post post : posts) {
+                    if (post.getCreatedAt().before(Post.lastPostTime)) {
+                        Post.lastPostTime = post.getCreatedAt();
+                    }
+                }
+                allPosts.addAll(posts);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     // get current user's 20 most recent posts
     @Override
@@ -37,6 +67,12 @@ public class ProfileFragment extends PostsFragment {
                     Log.e(TAG, "Issue with getting posts", e);
                     Toast.makeText(getContext(), "Error: Unable to load posts", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                Post.lastPostTime = new Date();
+                for (Post post : posts) {
+                    if (post.getCreatedAt().before(Post.lastPostTime)) {
+                        Post.lastPostTime = post.getCreatedAt();
+                    }
                 }
                 allPosts.clear();
                 allPosts.addAll(posts);
