@@ -41,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ComposeFragment extends Fragment {
 
-    public static final String TAG = "ComposeFragment";
+    private static final String TAG = "ComposeFragment";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     private static final String photoFileName = "photo.jpg";
     private EditText etDescription;
@@ -124,7 +124,7 @@ public class ComposeFragment extends Fragment {
     }
 
     // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
+    private File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos by accessing package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);

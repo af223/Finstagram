@@ -22,7 +22,7 @@ import com.parse.SignUpCallback;
 
 public class SignupActivity extends AppCompatActivity {
 
-    public static final String TAG = "SignupActivity";
+    private static final String TAG = "SignupActivity";
     private EditText etUsername;
     private EditText etPassword;
     private Button btnSignup;

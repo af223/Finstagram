@@ -34,7 +34,7 @@ import java.util.List;
 
 public class PostsFragment extends Fragment {
 
-    public static final String TAG = "PostsFragment";
+    private static final String TAG = "PostsFragment";
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     protected SwipeRefreshLayout swipeContainer;

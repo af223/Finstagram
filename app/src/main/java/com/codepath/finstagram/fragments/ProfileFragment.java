@@ -20,6 +20,8 @@ import java.util.List;
 
 public class ProfileFragment extends PostsFragment {
 
+    private static final String TAG = "ProfileFragment";
+
     // get current user's 20 most recent posts
     @Override
     protected void queryPosts() {
