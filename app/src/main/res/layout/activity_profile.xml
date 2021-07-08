@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    tools:context=".ProfileActivity">
+
+
+    <Button
+        android:id="@+id/btnAddPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add a profile picture" />
+
+    <ImageView
+        android:id="@+id/ivProfilePic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnSetPic"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Set as profile" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="Cancel" />
+    </LinearLayout>
+</LinearLayout>

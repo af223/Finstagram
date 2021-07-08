@@ -6,13 +6,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvAuthor"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="Author"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/ivPFP"
+            android:paddingTop="5dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="right"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Author"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/ivPost"

@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuPFP"
+        android:title="Add Profile"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/logout"
         android:title="Logout"
         app:showAsAction="always" />

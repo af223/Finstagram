@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.finstagram.DetailsActivity;
 import com.codepath.finstagram.R;
 import com.codepath.finstagram.models.Post;
@@ -62,6 +63,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private final ImageView ivPost;
         private final TextView tvDescription;
         private final TextView tvPostDate;
+        private final ImageView ivPFP;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -69,6 +71,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ivPost = itemView.findViewById(R.id.ivPost);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvPostDate = itemView.findViewById(R.id.tvPostDate);
+            ivPFP = itemView.findViewById(R.id.ivPFP);
             itemView.setOnClickListener(this);
         }
 
@@ -79,6 +82,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ParseFile image = post.getImage();
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivPost);
+            }
+            ParseFile pfp = post.getPFP();
+            if (pfp != null) {
+                Glide.with(context).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPFP);
             }
         }
 

@@ -70,9 +70,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int logout = R.id.logout;
+        final int pfp = R.id.menuPFP;
         if (item.getItemId() == logout) {
             ParseUser.logOut();
             Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        } else if (item.getItemId() == pfp) {
+            Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
