@@ -44,6 +44,7 @@ public class DetailsActivity extends AppCompatActivity {
     private ImageView ivPFP;
     private ImageButton ibLike;
     private Boolean liked = false;
+    private TextView tvNumLikes;
     private Like like;
     private Post pCurr;
 
@@ -58,6 +59,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tvDate);
         ivPFP = findViewById(R.id.ivPFP);
         ibLike = findViewById(R.id.ibLike);
+        tvNumLikes = findViewById(R.id.tvNumLikes);
 
         // fetch post from Parse based on objectID passed in from intent
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -82,6 +84,7 @@ public class DetailsActivity extends AppCompatActivity {
                 if (pfp != null) {
                     Glide.with(DetailsActivity.this).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPFP);
                 }
+                displayLikes();
                 ParseQuery<Like> queryLike = ParseQuery.getQuery(Like.class);
                 queryLike.whereEqualTo(Like.KEY_USER, ParseUser.getCurrentUser());
                 queryLike.whereEqualTo(Like.KEY_POST, post);
@@ -119,6 +122,9 @@ public class DetailsActivity extends AppCompatActivity {
                             Toast.makeText(DetailsActivity.this, "Unliked", Toast.LENGTH_SHORT).show();
                             ibLike.setImageResource(R.drawable.ufi_heart);
                             liked = !liked;
+                            pCurr.setNumLikes(pCurr.getNumLikes()-1);
+                            pCurr.saveInBackground();
+                            displayLikes();
                         }
                     });
                 } else {
@@ -136,10 +142,23 @@ public class DetailsActivity extends AppCompatActivity {
                             Toast.makeText(DetailsActivity.this, "liked", Toast.LENGTH_SHORT).show();
                             ibLike.setImageResource(R.drawable.ufi_heart_active);
                             liked = !liked;
+                            pCurr.setNumLikes(pCurr.getNumLikes()+1);
+                            pCurr.saveInBackground();
+                            displayLikes();
                         }
                     });
                 }
             }
         });
+    }
+
+    private void displayLikes () {
+        if (pCurr.getNumLikes() > 0) {
+            tvNumLikes.setVisibility(View.VISIBLE);
+            String val = pCurr.getNumLikes() + " likes";
+            tvNumLikes.setText(val);
+        } else {
+            tvNumLikes.setVisibility(View.GONE);
+        }
     }
 }
