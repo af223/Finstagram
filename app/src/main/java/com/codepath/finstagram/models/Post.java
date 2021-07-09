@@ -16,6 +16,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_PFP = "profilePicture";
+    public static final String KEY_LIKES = "numLikes";
     public static Date lastPostTime;
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -77,6 +78,14 @@ public class Post extends ParseObject {
 
     public ParseFile getPFP() {
         return getParseUser(KEY_USER).getParseFile(KEY_PFP);
+    }
+
+    public int getNumLikes() {
+        return getInt(KEY_LIKES);
+    }
+
+    public void setNumLikes(int n) {
+        put(KEY_LIKES, n);
     }
 
 }

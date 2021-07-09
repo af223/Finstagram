@@ -12,11 +12,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.codepath.finstagram.models.Like;
 import com.codepath.finstagram.models.Post;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 /**
  * This activity allows the user to view the selected post in detail. Namely, the user can see the
@@ -35,6 +43,9 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvDate;
     private ImageView ivPFP;
     private ImageButton ibLike;
+    private Boolean liked = false;
+    private Like like;
+    private Post pCurr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Toast.makeText(DetailsActivity.this, "Error: Unable to load post details", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                pCurr = post;
                 tvDescription.setText(post.getDescription());
                 ParseFile image = post.getImage();
                 if (image != null) {
@@ -70,13 +82,63 @@ public class DetailsActivity extends AppCompatActivity {
                 if (pfp != null) {
                     Glide.with(DetailsActivity.this).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPFP);
                 }
+                ParseQuery<Like> queryLike = ParseQuery.getQuery(Like.class);
+                queryLike.whereEqualTo(Like.KEY_USER, ParseUser.getCurrentUser());
+                queryLike.whereEqualTo(Like.KEY_POST, post);
+                queryLike.findInBackground(new FindCallback<Like>() {
+                    @Override
+                    public void done(List<Like> objects, ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Issue with getting likes", e);
+                            Toast.makeText(DetailsActivity.this, "Error: Unable to load likes", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (!objects.isEmpty()) {
+                            liked = true;
+                            ibLike.setImageResource(R.drawable.ufi_heart_active);
+                            like = (Like) objects.get(0);
+                        }
+                    }
+                });
+
             }
         });
 
         ibLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (liked) {
+                    like.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(TAG, "Issue with unliking", e);
+                                Toast.makeText(DetailsActivity.this, "Error: Unable to unlike", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Toast.makeText(DetailsActivity.this, "Unliked", Toast.LENGTH_SHORT).show();
+                            ibLike.setImageResource(R.drawable.ufi_heart);
+                            liked = !liked;
+                        }
+                    });
+                } else {
+                    like = new Like();
+                    like.put(Like.KEY_USER, ParseUser.getCurrentUser());
+                    like.put(Like.KEY_POST, pCurr);
+                    like.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(TAG, "Issue with liking", e);
+                                Toast.makeText(DetailsActivity.this, "Error: Unable to like", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Toast.makeText(DetailsActivity.this, "liked", Toast.LENGTH_SHORT).show();
+                            ibLike.setImageResource(R.drawable.ufi_heart_active);
+                            liked = !liked;
+                        }
+                    });
+                }
             }
         });
     }

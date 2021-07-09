@@ -2,6 +2,7 @@ package com.codepath.finstagram;
 
 import android.app.Application;
 
+import com.codepath.finstagram.models.Like;
 import com.codepath.finstagram.models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -14,6 +15,7 @@ public class ParseApplication extends Application {
 
         // Register parse model
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Like.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.app_id))
