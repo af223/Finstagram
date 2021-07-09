@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.finstagram.ProfileActivity;
 import com.codepath.finstagram.R;
+import com.codepath.finstagram.adapters.PicsAdapter;
 import com.codepath.finstagram.adapters.PostsAdapter;
 import com.codepath.finstagram.models.Post;
 import com.parse.FindCallback;
@@ -45,7 +46,7 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
-    private PostsAdapter adapter;
+    private PicsAdapter adapter;
     private List<Post> allPosts;
     private SwipeRefreshLayout swipeContainer;
     private RecyclerView rvPosts;
@@ -96,7 +97,7 @@ public class ProfileFragment extends Fragment {
                 android.R.color.holo_red_light);
 
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new PicsAdapter(getContext(), allPosts);
         rvPosts = view.findViewById(R.id.rvPosts);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rvPosts.setLayoutManager(gridLayoutManager);
