@@ -43,7 +43,7 @@ import static android.app.Activity.RESULT_OK;
 public class ComposeFragment extends Fragment {
 
     private static final String TAG = "ComposeFragment";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     private static final String photoFileName = "photo.jpg";
     private EditText etDescription;
     private Button btnTakePic;
@@ -141,7 +141,6 @@ public class ComposeFragment extends Fragment {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    // stores newly made post to Parse
     private void savePost(String description, ParseUser currentUser, File photoFile) {
         pb.setVisibility(ProgressBar.VISIBLE);
         Post post = new Post();

@@ -20,6 +20,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * This adapter is for the Recycler View in ProfileFragment, where each view holder
+ * displays the image that the user posted in a grid layout.
+ */
+
 public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.ViewHolder> {
 
     private final Context context;

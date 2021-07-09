@@ -8,7 +8,7 @@ import com.parse.ParseUser;
 public class Comment extends ParseObject {
     public static final String KEY_POST = "post";
     public static final String KEY_USER = "commenter";
-    public static final String KEY_COMMENT = "comment";
+    private static final String KEY_COMMENT = "comment";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);

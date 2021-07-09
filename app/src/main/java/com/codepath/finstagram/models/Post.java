@@ -17,12 +17,11 @@ public class Post extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_PFP = "profilePicture";
     public static final String KEY_LIKES = "numLikes";
-    public static Date lastPostTime;
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-
+    public static Date lastPostTime;
 
     // calculate time post was created relative to now
     public static String calculateTimeAgo(Date createdAt) {

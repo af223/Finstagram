@@ -21,6 +21,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * This adapter is for the Recycler View in DetailsActivity and CommentsActivity, where each view holder
+ * displays a comment made by a user of the app. Each comment contains the poster's profile picture,
+ * the username, and the comment.
+ */
+
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
 
     private final Context context;

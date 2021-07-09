@@ -84,7 +84,8 @@ public class PostsFragment extends Fragment {
         queryPosts();
     }
 
-    // load older posts
+    // load posts created before Post.lastPostTime, updating the timestamp of the
+    // oldest loaded post as new posts are loaded
     protected void loadMorePosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);

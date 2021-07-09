@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -24,7 +23,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.finstagram.ProfileActivity;
 import com.codepath.finstagram.R;
 import com.codepath.finstagram.adapters.PicsAdapter;
-import com.codepath.finstagram.adapters.PostsAdapter;
 import com.codepath.finstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -39,8 +37,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This fragment allows the logged in user to view their own 20 most recent posts, and pull down
- * to refresh the feed. This fragment appears when the profile (right) option is selected on the bottom navigation.
+ * This fragment allows the logged in user to view their own posts, pull down
+ * to refresh the feed, and add or edit their profile picture. Changing the profile picture automatically
+ * updates the profile picture on this page too. This fragment appears when
+ * the profile (right) option is selected on the bottom navigation.
  */
 
 public class ProfileFragment extends Fragment {
@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
         });
 
         // swipe to refresh
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
