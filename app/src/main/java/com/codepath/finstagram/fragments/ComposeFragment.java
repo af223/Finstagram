@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -49,6 +50,7 @@ public class ComposeFragment extends Fragment {
     private Button btnPost;
     private ImageView ivPicture;
     private File photoFile;
+    private ProgressBar pb;
 
     public ComposeFragment() {
         // Required empty public constructor
@@ -67,6 +69,7 @@ public class ComposeFragment extends Fragment {
         btnTakePic = view.findViewById(R.id.btnTakePic);
         btnPost = view.findViewById(R.id.btnPost);
         ivPicture = view.findViewById(R.id.ivPicture);
+        pb = view.findViewById(R.id.pbLoading);
 
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +143,7 @@ public class ComposeFragment extends Fragment {
 
     // stores newly made post to Parse
     private void savePost(String description, ParseUser currentUser, File photoFile) {
+        pb.setVisibility(ProgressBar.VISIBLE);
         Post post = new Post();
         post.setDescription(description);
         post.setImage(new ParseFile(photoFile));
@@ -150,9 +154,11 @@ public class ComposeFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Error while saving post: ", e);
                     Toast.makeText(getContext(), "Error while saving: unable to post", Toast.LENGTH_SHORT).show();
+                    pb.setVisibility(ProgressBar.INVISIBLE);
                 }
                 etDescription.setText("");
                 ivPicture.setImageResource(0);
+                pb.setVisibility(ProgressBar.INVISIBLE);
             }
         });
     }

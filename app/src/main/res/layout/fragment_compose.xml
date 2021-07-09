@@ -46,4 +46,13 @@
         android:text="Post"
         android:layout_centerInParent="true" />
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnPost"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:visibility="invisible" />
+
 </RelativeLayout>
