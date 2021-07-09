@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignup = findViewById(R.id.btnSignup);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
-        btnSignup = findViewById(R.id.btnSignup);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,13 +60,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // login in background thread so that user can still interact with app while waiting
     private void loginUser(String username, String password) {
-        // login in background thread so that user can still interact with app while waiting
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Unable to login!", Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Issue with login: ", e);
                     return;
                 }

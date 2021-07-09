@@ -38,9 +38,9 @@ import java.util.List;
 
 /**
  * This fragment allows the logged in user to view their own posts, pull down
- * to refresh the feed, and add or edit their profile picture. Changing the profile picture automatically
- * updates the profile picture on this page too. This fragment appears when
- * the profile (right) option is selected on the bottom navigation.
+ * to refresh the feed, and open the activity to add or edit their profile picture.
+ * Changing the profile picture automatically updates the profile picture on this page too.
+ * This fragment appears when the profile (right) option is selected on the bottom navigation.
  */
 
 public class ProfileFragment extends Fragment {

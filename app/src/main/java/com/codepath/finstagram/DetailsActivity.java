@@ -178,6 +178,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    // determine whether or not the user has liked the post, puts the like button accordingly
     private void setLikeButton(Post post) {
         ParseQuery<Like> queryLike = ParseQuery.getQuery(Like.class);
         queryLike.whereEqualTo(Like.KEY_USER, ParseUser.getCurrentUser());
@@ -208,7 +209,6 @@ public class DetailsActivity extends AppCompatActivity {
                     Toast.makeText(DetailsActivity.this, "Error: Unable to unlike", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(DetailsActivity.this, "Unliked", Toast.LENGTH_SHORT).show();
                 ibLike.setImageResource(R.drawable.ufi_heart);
                 liked = !liked;
                 post.setNumLikes(post.getNumLikes() - 1);
@@ -230,7 +230,6 @@ public class DetailsActivity extends AppCompatActivity {
                     Toast.makeText(DetailsActivity.this, "Error: Unable to like", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(DetailsActivity.this, "liked", Toast.LENGTH_SHORT).show();
                 ibLike.setImageResource(R.drawable.ufi_heart_active);
                 liked = !liked;
                 post.setNumLikes(post.getNumLikes() + 1);
