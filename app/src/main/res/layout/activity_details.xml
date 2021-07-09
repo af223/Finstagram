@@ -41,15 +41,33 @@
         android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageButton
-        android:id="@+id/ibLike"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="4dp"
-        android:background="@null"
-        android:backgroundTint="#FFFFFF"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/ufi_heart" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp">
+
+        <ImageButton
+            android:id="@+id/ibLike"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="4dp"
+            android:background="@null"
+            android:backgroundTint="#FFFFFF"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ufi_heart" />
+
+        <ImageButton
+            android:id="@+id/ibComment"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="4dp"
+            android:background="@null"
+            android:backgroundTint="#FFFFFF"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ufi_comment" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvNumLikes"
@@ -69,10 +87,16 @@
         android:textColor="#000000"
         android:textSize="18sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvComments"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/tvDate"

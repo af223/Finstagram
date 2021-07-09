@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Finstagram"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".CommentActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".DetailsActivity" />
 
         <provider

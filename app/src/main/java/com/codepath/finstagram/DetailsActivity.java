@@ -1,5 +1,6 @@
 package com.codepath.finstagram;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -55,6 +57,8 @@ public class DetailsActivity extends AppCompatActivity {
     private RecyclerView rvComments;
     private Like like;
     private Post pCurr;
+    private SwipeRefreshLayout swipeContainer;
+    private ImageButton ibComment;
 
     private CommentsAdapter adapter;
     private List<Comment> allComments;
@@ -72,6 +76,7 @@ public class DetailsActivity extends AppCompatActivity {
         ibLike = findViewById(R.id.ibLike);
         tvNumLikes = findViewById(R.id.tvNumLikes);
         rvComments = findViewById(R.id.rvComments);
+        ibComment = findViewById(R.id.ibComment);
 
         // fetch post from Parse based on objectID passed in from intent
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -97,6 +102,34 @@ public class DetailsActivity extends AppCompatActivity {
                     Glide.with(DetailsActivity.this).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPFP);
                 }
                 displayLikes();
+
+                ibComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(DetailsActivity.this, CommentActivity.class);
+                        i.putExtra(Post.class.getSimpleName(), post.getObjectId());
+                        startActivity(i);
+                    }
+                });
+
+                swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+                swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        loadComments();
+                    }
+                });
+                swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                        android.R.color.holo_green_light,
+                        android.R.color.holo_orange_light,
+                        android.R.color.holo_red_light);
+
+                allComments = new ArrayList<>();
+                adapter = new CommentsAdapter(DetailsActivity.this, allComments);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailsActivity.this);
+                rvComments.setLayoutManager(linearLayoutManager);
+                rvComments.setAdapter(adapter);
+
                 loadComments();
                 ParseQuery<Like> queryLike = ParseQuery.getQuery(Like.class);
                 queryLike.whereEqualTo(Like.KEY_USER, ParseUser.getCurrentUser());
@@ -176,12 +209,6 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void loadComments () {
-        allComments = new ArrayList<>();
-        adapter = new CommentsAdapter(this, allComments);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rvComments.setLayoutManager(linearLayoutManager);
-        rvComments.setAdapter(adapter);
-
         ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
         query.include(Comment.KEY_USER);
         query.whereEqualTo(Comment.KEY_POST, pCurr);
@@ -198,6 +225,7 @@ public class DetailsActivity extends AppCompatActivity {
                 allComments.clear();
                 allComments.addAll(objects);
                 adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
             }
         });
     }
