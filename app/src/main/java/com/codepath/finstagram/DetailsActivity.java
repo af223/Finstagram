@@ -2,6 +2,8 @@ package com.codepath.finstagram;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.finstagram.models.Post;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -30,6 +33,8 @@ public class DetailsActivity extends AppCompatActivity {
     private ImageView ivPost;
     private TextView tvDescription;
     private TextView tvDate;
+    private ImageView ivPFP;
+    private ImageButton ibLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,8 @@ public class DetailsActivity extends AppCompatActivity {
         ivPost = findViewById(R.id.ivPost);
         tvDescription = findViewById(R.id.tvDescription);
         tvDate = findViewById(R.id.tvDate);
+        ivPFP = findViewById(R.id.ivPFP);
+        ibLike = findViewById(R.id.ibLike);
 
         // fetch post from Parse based on objectID passed in from intent
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -59,6 +66,17 @@ public class DetailsActivity extends AppCompatActivity {
                 }
                 tvAuthor.setText(post.getUser().getUsername());
                 tvDate.setText(Post.calculateTimeAgo(post.getCreatedAt()));
+                ParseFile pfp = post.getPFP();
+                if (pfp != null) {
+                    Glide.with(DetailsActivity.this).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPFP);
+                }
+            }
+        });
+
+        ibLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

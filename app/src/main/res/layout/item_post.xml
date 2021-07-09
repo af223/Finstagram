@@ -15,6 +15,7 @@
         <ImageView
             android:id="@+id/ivPFP"
             android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="right"
@@ -24,7 +25,9 @@
             android:id="@+id/tvAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="3dp"
             android:text="Author"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </LinearLayout>
@@ -52,6 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="15dp"
         android:text="TextView" />
 </LinearLayout>
