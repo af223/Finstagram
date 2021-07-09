@@ -9,9 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.codepath.finstagram.adapters.CommentsAdapter;
+import com.codepath.finstagram.adapters.PostsAdapter;
+import com.codepath.finstagram.models.Comment;
 import com.codepath.finstagram.models.Like;
 import com.codepath.finstagram.models.Post;
 import com.parse.DeleteCallback;
@@ -24,6 +29,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,8 +52,12 @@ public class DetailsActivity extends AppCompatActivity {
     private ImageButton ibLike;
     private Boolean liked = false;
     private TextView tvNumLikes;
+    private RecyclerView rvComments;
     private Like like;
     private Post pCurr;
+
+    private CommentsAdapter adapter;
+    private List<Comment> allComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +71,7 @@ public class DetailsActivity extends AppCompatActivity {
         ivPFP = findViewById(R.id.ivPFP);
         ibLike = findViewById(R.id.ibLike);
         tvNumLikes = findViewById(R.id.tvNumLikes);
+        rvComments = findViewById(R.id.rvComments);
 
         // fetch post from Parse based on objectID passed in from intent
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -85,6 +97,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Glide.with(DetailsActivity.this).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPFP);
                 }
                 displayLikes();
+                loadComments();
                 ParseQuery<Like> queryLike = ParseQuery.getQuery(Like.class);
                 queryLike.whereEqualTo(Like.KEY_USER, ParseUser.getCurrentUser());
                 queryLike.whereEqualTo(Like.KEY_POST, post);
@@ -103,7 +116,6 @@ public class DetailsActivity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
 
@@ -129,6 +141,7 @@ public class DetailsActivity extends AppCompatActivity {
                     });
                 } else {
                     like = new Like();
+                    // clean up with methods in Like
                     like.put(Like.KEY_USER, ParseUser.getCurrentUser());
                     like.put(Like.KEY_POST, pCurr);
                     like.saveInBackground(new SaveCallback() {
@@ -160,5 +173,32 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             tvNumLikes.setVisibility(View.GONE);
         }
+    }
+
+    private void loadComments () {
+        allComments = new ArrayList<>();
+        adapter = new CommentsAdapter(this, allComments);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvComments.setLayoutManager(linearLayoutManager);
+        rvComments.setAdapter(adapter);
+
+        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
+        query.include(Comment.KEY_USER);
+        query.whereEqualTo(Comment.KEY_POST, pCurr);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Comment>() {
+            @Override
+            public void done(List<Comment> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting comments", e);
+                    Toast.makeText(DetailsActivity.this, "Error: Unable to load comments", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.i(TAG, "got comments");
+                allComments.clear();
+                allComments.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }
