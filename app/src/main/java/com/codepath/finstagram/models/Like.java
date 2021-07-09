@@ -13,7 +13,15 @@ public class Like extends ParseObject {
         return getParseUser(KEY_USER);
     }
 
+    public void setUser(ParseUser user) {
+        put(Like.KEY_USER, user);
+    }
+
     public ParseObject getPost() {
         return getParseObject(KEY_POST);
+    }
+
+    public void setPost(Post post) {
+        put(Like.KEY_POST, post);
     }
 }
