@@ -1,10 +1,12 @@
 package com.codepath.finstagram.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.codepath.finstagram.ProfileActivity;
 import com.codepath.finstagram.R;
 import com.codepath.finstagram.adapters.PostsAdapter;
 import com.codepath.finstagram.models.Post;
@@ -48,6 +51,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView rvPosts;
     private ImageView ivPfp;
     private TextView tvName;
+    private Button btnAddProfile;
     private EndlessRecyclerViewScrollListener scrollListener;
 
 
@@ -63,11 +67,21 @@ public class ProfileFragment extends Fragment {
 
         ivPfp = view.findViewById(R.id.ivPfp);
         tvName = view.findViewById(R.id.tvName);
+        btnAddProfile = view.findViewById(R.id.btnAddProfile);
         ParseFile pfp = ParseUser.getCurrentUser().getParseFile(Post.KEY_PFP);
         if (pfp != null) {
             Glide.with(getContext()).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPfp);
         }
         tvName.setText(ParseUser.getCurrentUser().getUsername());
+        btnAddProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), ProfileActivity.class);
+                startActivity(i);
+            }
+        });
+
+        // swipe to refresh
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -96,6 +110,16 @@ public class ProfileFragment extends Fragment {
         };
         rvPosts.addOnScrollListener(scrollListener);
         rvPosts.setAdapter(adapter);
+        queryPosts();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ParseFile pfp = ParseUser.getCurrentUser().getParseFile(Post.KEY_PFP);
+        if (pfp != null) {
+            Glide.with(getContext()).load(pfp.getUrl()).transform(new CircleCrop()).into(ivPfp);
+        }
         queryPosts();
     }
 

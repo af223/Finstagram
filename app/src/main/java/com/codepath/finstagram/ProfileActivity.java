@@ -66,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
                         f = new File(ProfileActivity.this.getCacheDir(), "photo.jpg");
                         f.createNewFile();
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, bos);
                         byte[] bitmapdata = bos.toByteArray();
                         FileOutputStream fos = new FileOutputStream(f);
                         fos.write(bitmapdata);
@@ -79,6 +79,9 @@ public class ProfileActivity extends AppCompatActivity {
                                 if (e != null) {
                                     Log.e("Profile", "Error while saving pfp: ", e);
                                     Toast.makeText(ProfileActivity.this, "Error while saving pfp", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ProfileActivity.this, "New profile picture set!", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             }
                         });
