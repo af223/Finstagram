@@ -66,7 +66,9 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I had some trouble communicating data models between activities, since Parceler couldn't Parcel the data models. To fix this, I passed objectIds through intents, as they also uniquely identified the data models, however it may not have been as efficient with the numerous database queries.
+
+I had some trouble handling the asynchronous calls. In some of the later activities like DetailsActivity, I could only load in elements after making and receiving a response from the database query to get the post being viewed in detail. However, before I realized this, I was occasionally running into errors where an object hadn't been instantiated yet, and thus I was receiving Null exceptions.
 
 ## License
 
